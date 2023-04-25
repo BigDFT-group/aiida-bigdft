@@ -13,6 +13,8 @@ import tempfile
 from aiida.common.exceptions import NotExistent
 from aiida.orm import Code, Computer
 
+from aiida import __version__
+
 LOCALHOST_NAME = "localhost-test"
 
 executables = {
@@ -51,13 +53,19 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
         if workdir is None:
             workdir = tempfile.mkdtemp()
 
+        transport = "local"
+        scheduler = "direct"
+        if int(__version__.split('.')) >= 2:
+            transport = f'core.{transport}'
+            scheduler = f'core.{scheduler}'
+
         computer = Computer(
             label=name,
             description="localhost computer set up by aiida_diff tests",
             hostname=name,
             workdir=workdir,
-            transport_type="core.local",
-            scheduler_type="core.direct",
+            transport_type=transport,
+            scheduler_type=scheduler,
         )
         computer.store()
         computer.set_minimum_job_poll_interval(0.0)
