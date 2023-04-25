@@ -82,8 +82,6 @@ def run(structure=None,
     logger.debug(str(inp))
 
     # calculation proper
-    if user == 'test':
-        return Logfile()
     frag = ase_to_bigdft(struct_ase)
     logger.debug(f'fragment generated: {frag}')
 
