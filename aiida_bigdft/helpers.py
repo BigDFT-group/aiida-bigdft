@@ -16,7 +16,7 @@ from aiida.orm import Code, Computer
 LOCALHOST_NAME = "localhost-test"
 
 executables = {
-    "pybigdft_plugin": "diff",
+    "bigdft": "bigdft",
 }
 
 
