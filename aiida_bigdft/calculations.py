@@ -11,7 +11,7 @@ import aiida.orm
 import yaml
 from aiida.common import datastructures
 from aiida.engine import CalcJob
-from aiida.orm import User
+from aiida.orm import User, to_aiida_type
 
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
@@ -75,6 +75,8 @@ class BigDFTCalculation(CalcJob):
         # outputs
         spec.output("logfile", valid_type=BigDFTLogfile)
         spec.output("timefile", valid_type=BigDFTFile)
+        spec.output("energy", valid_type=aiida.orm.Float)
+        spec.output("ttotal", valid_type=aiida.orm.Float)
 
         spec.exit_code(100, 'ERROR_MISSING_OUTPUT_FILES',
                        message='Calculation did not produce all expected output files.')

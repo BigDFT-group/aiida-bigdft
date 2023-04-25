@@ -11,6 +11,7 @@ import getpass
 from aiida.common import exceptions
 from aiida.engine import ExitCode
 from aiida.parsers.parser import Parser
+import aiida.orm
 
 from aiida_bigdft.calculations import BigDFTCalculation
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
@@ -117,6 +118,17 @@ class BigDFTParser(Parser):
 
         self.out("logfile", logfile)
         self.out("timefile", timefile)
+
+        self.out("energy", aiida.orm.Float(logfile.logfile.energy))
+
+        ttotal = timefile.content.get("SUMMARY", None)
+        if ttotal is not None:
+            ttotal = ttotal.get("Total", [-1.0])
+
+            self.out("ttotal", aiida.orm.Float(ttotal[-1]))
+
+        else:
+            self.out("ttotal", aiida.orm.Float(-1.0))
 
         return exitcode
 
