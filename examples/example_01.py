@@ -63,10 +63,10 @@ def test_run(code):
                 "resources": {
                     # "num_cores_per_machine": 16,
                     "num_cores_per_mpiproc": 1,
-                    "num_mpiprocs_per_machine": 4,
+                    "num_mpiprocs_per_machine": 1,
                     "num_machines": 1,
                 },
-                "withmpi": True,
+                "withmpi": False,
             }
         },
     }
