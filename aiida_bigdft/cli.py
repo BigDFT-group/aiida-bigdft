@@ -13,11 +13,11 @@ from aiida.cmdline.commands.cmd_data import verdi_data
 from aiida.cmdline.params.types import DataParamType
 from aiida.cmdline.utils import decorators
 from aiida.orm import QueryBuilder
-from aiida.plugins import DataFactory
+from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 
 
 # See aiida.cmdline.data entry point in setup.json
-@verdi_data.group("pybigdft_plugin")
+@verdi_data.group("aiida_bigdft")
 def data_cli():
     """Command line interface for aiida-pybigdft-plugin"""
 
@@ -28,10 +28,8 @@ def list_():  # pylint: disable=redefined-builtin
     """
     Display all DiffParameters nodes
     """
-    DiffParameters = DataFactory("pybigdft_plugin")
-
     qb = QueryBuilder()
-    qb.append(DiffParameters)
+    qb.append(BigDFTParameters)
     results = qb.all()
 
     s = ""
