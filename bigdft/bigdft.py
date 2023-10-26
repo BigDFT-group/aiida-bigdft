@@ -48,9 +48,9 @@ class MiniLogger:
 @click.option('--structure', help='path to structure json file')
 @click.option('--parameters', help='yaml dumped dft parameters')
 @click.option('--submission', help='extra submission parameters')
-def run(structure=None,
-        parameters=None,
-        submission=None) -> Logfile:
+def run(structure: str = None,
+        parameters: str = None,
+        submission: str = None) -> Logfile:
     """
     Run the calculation. Requires three file path inputs:
 
@@ -70,7 +70,7 @@ def run(structure=None,
         with open(submission, 'r') as o:
             params_sub = yaml.safe_load(o)
 
-    logger.debug(f'loaded submission paramters file {params_sub}')
+    logger.debug(f'loaded submission parameters file {params_sub}')
 
     # structure input
     if structure is None:
