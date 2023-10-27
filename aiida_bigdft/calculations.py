@@ -3,9 +3,7 @@ Calculations provided by aiida_bigdft.
 
 Register calculations via the "aiida.calculations" entry point in setup.json.
 """
-import getpass
 import os
-from datetime import datetime
 
 import aiida.orm
 import yaml
@@ -15,6 +13,7 @@ from aiida.orm import User
 
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
+from aiida_bigdft.debug import debug
 
 try:
     from aiida_bigdft.paths import DEBUG_PATHS
@@ -22,21 +21,6 @@ except ImportError:
     DEBUG_PATHS = None
 
 DEBUG = True
-
-
-def debug(msg, wipe=False, time=True):
-    if not DEBUG or not DEBUG_PATHS:
-        return
-    mode = 'w+' if wipe else 'a'
-    timestr = datetime.now().strftime('%H:%M:%S')
-
-    usr = getpass.getuser()
-
-    with open(DEBUG_PATHS[usr], mode) as o:
-        if not time:
-            o.write(f'{msg}\n')
-            return
-        o.write(f'[{timestr}] {msg}\n')
 
 
 class BigDFTCalculation(CalcJob):
