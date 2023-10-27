@@ -55,7 +55,7 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
 
         transport = "local"
         scheduler = "direct"
-        if int(__version__.split('.')) >= 2:
+        if int(__version__.split('.')[0]) >= 2:
             transport = f'core.{transport}'
             scheduler = f'core.{scheduler}'
 
