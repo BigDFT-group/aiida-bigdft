@@ -3,8 +3,6 @@ Calculations provided by aiida_bigdft.
 
 Register calculations via the "aiida.calculations" entry point in setup.json.
 """
-import os
-
 import aiida.orm
 import yaml
 from aiida.common import datastructures
