@@ -12,7 +12,10 @@ verdi plugin list aiida.calculations  # should now show your calclulation plugin
 
 You must ensure that your bigdft install has a copy of the `bigdft.py` in the build dir.
 
-This can be found in this repository at `bigdft/bigdft.py`
+This can be found in this repository at `bigdft/bigdft.py`, set this as the executable 
+for `bigdft`.
+
+It is important to source the `install/bin/bigdftvars.sh` script in your prepend.
 
 
 ## Usage
@@ -20,10 +23,11 @@ This can be found in this repository at `bigdft/bigdft.py`
 Here goes a complete example of how to submit a test calculation using this plugin.
 
 A quick demo of how to submit a calculation:
+
 ```shell
 verdi daemon start     # make sure the daemon is running
 cd examples
-./example_01.py        # run test calculation
+verdi run examples/example_01.py        # run test calculation
 verdi process list -a  # check record of calculation
 ```
 
