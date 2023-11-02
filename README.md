@@ -10,12 +10,22 @@ verdi quicksetup  # better to set up a new profile
 verdi plugin list aiida.calculations  # should now show your calclulation plugins
 ```
 
-You must ensure that your bigdft install has a copy of the `bigdft.py` in the build dir.
+## Requirements
 
-This can be found in this repository at `bigdft/bigdft.py`, set this as the executable 
-for `bigdft`.
+- A functioning BigDFT installation
+- A copy of `bigdft.py` (available in this repository at `bigdft/bigdft.py`)
 
-It is important to source the `install/bin/bigdftvars.sh` script in your prepend.
+When setting up the BigDFT code, ensure that the executable is set to the `bigdft.py` script.
+
+It is also important to source the `install/bin/bigdftvars.sh` script in your prepend.
+
+```shell
+# aiida code prepend
+
+source ${BIGDFT_BUILD_DIR}/install/bin/bigdftvars.sh
+```
+
+Where BIGDFT_BUILD_DIR is the directory in which BigDFT was built.
 
 
 ## Usage
