@@ -13,14 +13,6 @@ from aiida.orm import User
 
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
-from aiida_bigdft.debug import debug
-
-try:
-    from aiida_bigdft.paths import DEBUG_PATHS
-except ImportError:
-    DEBUG_PATHS = None
-
-DEBUG = True
 
 
 class BigDFTCalculation(CalcJob):
@@ -79,21 +71,15 @@ class BigDFTCalculation(CalcJob):
             needed by the calculation.
         :return: `aiida.common.datastructures.CalcInfo` instance
         """
-
-        debug(f'operating in dir {os.getcwd()}')
-
         # dump structure
         structure_fname = 'structure.json'
         with folder.open(structure_fname, 'w') as o:
             self.inputs.structure.get_ase().write(o)
-        debug(f'structure written to file {structure_fname}', wipe=True)
 
         # dump params
-        debug(f'dumping params {self.inputs.parameters}')
         params_fname = 'input.yaml'
         with folder.open(params_fname, 'w') as o:
             yaml.dump(self.inputs.parameters.get_dict(), o)
-        debug(f'parameters written to file {params_fname}')
 
         # submission parameters
         jobname = self.metadata.options.jobname
@@ -139,7 +125,6 @@ class BigDFTCalculation(CalcJob):
         # This actually updates the computer mpirun command permanently
         # self.node.computer.set_mpirun_command([])
 
-        debug(f'dumping submission params {sub_params}')
         with folder.open(sub_params_file, 'w') as o:
             yaml.dump(sub_params, o)
 

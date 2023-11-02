@@ -12,8 +12,6 @@ from BigDFT.Calculators import SystemCalculator
 from BigDFT.Interop.ASEInterop import ase_to_bigdft
 from BigDFT.Systems import System
 
-from aiida_bigdft.debug import debug
-
 
 @click.command()
 @click.option('--structure', help='path to structure json file')
@@ -41,34 +39,22 @@ def run(structure: str = None,
         with open(submission, 'r') as o:
             params_sub = yaml.safe_load(o)
 
-    debug(f'loaded submission parameters file {params_sub}')
-
     # structure input
     if structure is None:
-        debug('structure is None, defaulting')
         structure = 'structure.json'
     structure = os.path.abspath(structure)
 
-    debug(f'reading structure at {structure}')
     struct_ase = ase.io.read(structure)
-
-    debug('structure read')
 
     # bigdft parameters input
     if parameters is None:
-        debug('parameters is None, defaulting')
         parameters = 'input.yaml'
-    debug(f'reading parameters at {parameters}')
     with open(parameters, 'r') as o:
         parameters = yaml.safe_load(o)
     inp = Inputfile(parameters)
 
-    debug('parameters read')
-    debug(str(inp))
-
     # calculation proper
     frag = ase_to_bigdft(struct_ase)
-    debug(f'fragment generated: {frag}')
 
     sys = System()
     sys['FRA:1'] = frag
