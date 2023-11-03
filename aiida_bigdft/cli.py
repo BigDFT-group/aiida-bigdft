@@ -26,7 +26,7 @@ def data_cli():
 @decorators.with_dbenv()
 def list_():  # pylint: disable=redefined-builtin
     """
-    Display all DiffParameters nodes
+    Display all BigDFTParameter nodes
     """
     qb = QueryBuilder()
     qb.append(BigDFTParameters)
@@ -49,7 +49,7 @@ def list_():  # pylint: disable=redefined-builtin
 )
 @decorators.with_dbenv()
 def export(node, outfile):
-    """Export a DiffParameters node (identified by PK, UUID or label) to plain text."""
+    """Export a node (identified by PK, UUID or label) to plain text."""
     string = str(node)
 
     if outfile:
