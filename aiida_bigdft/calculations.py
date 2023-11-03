@@ -49,7 +49,7 @@ class BigDFTCalculation(CalcJob):
 
         spec.input("metadata.options.jobname", valid_type=str)
 
-        # spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List())
+        spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List())
         spec.input("extra_files_recv", valid_type=List, serializer = to_aiida_type, default = lambda: List())
 
         # outputs
@@ -110,7 +110,7 @@ class BigDFTCalculation(CalcJob):
         ]
 
         for file in self.inputs.extra_files_recv.get_list():
-            list_recv.append( (file, ".", file.count("/")) )
+            list_recv.append( (file, ".", 0) )
 
         calcinfo.retrieve_list = list_recv
 
