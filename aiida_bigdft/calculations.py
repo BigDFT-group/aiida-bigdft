@@ -7,7 +7,6 @@ import aiida.orm
 import yaml
 from aiida.common import datastructures
 from aiida.engine import CalcJob
-from aiida.orm import User
 
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
@@ -45,8 +44,9 @@ class BigDFTCalculation(CalcJob):
         spec.input("structure", valid_type=aiida.orm.StructureData)
         spec.input("parameters", valid_type=BigDFTParameters, default=lambda: BigDFTParameters())
 
-        spec.input("structure_fname", valid_type=str, default="structure.json")
-        spec.input("params_fname", valid_type=str, default="input.yaml")
+        spec.input("structure_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("structure.json"))
+        spec.input("params_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("input.yaml"))
+
         spec.input("metadata.options.jobname", valid_type=str)
 
         # outputs
@@ -72,12 +72,13 @@ class BigDFTCalculation(CalcJob):
             needed by the calculation.
         :return: `aiida.common.datastructures.CalcInfo` instance
         """
-        # dump structure
-        with folder.open(self.inputs.structure_fname, 'w') as o:
+        struct_fname = self.inputs.structure_fname.value
+        with folder.open(struct_fname, 'w') as o:
             self.inputs.structure.get_ase().write(o)
 
         # dump params
-        with folder.open(self.inputs.params_fname, 'w') as o:
+        params_fname = str(self.inputs.params_fname.value)
+        with folder.open(params_fname, 'w') as o:
             yaml.dump(self.inputs.parameters.get_dict(), o)
 
         # submission parameters
@@ -88,8 +89,8 @@ class BigDFTCalculation(CalcJob):
         codeinfo = datastructures.CodeInfo()
 
         codeinfo.code_uuid = self.inputs.code.uuid
-        codeinfo.cmdline_params = ['--structure', self.inputs.structure_fname,
-                                   '--parameters', self.inputs.params_fname,
+        codeinfo.cmdline_params = ['--structure', self.inputs.structure_fname.value,
+                                   '--parameters', self.inputs.params_fname.value,
                                    '--submission', sub_params_file]
 
         # Prepare a `CalcInfo` to be returned to the engine
@@ -116,7 +117,7 @@ class BigDFTCalculation(CalcJob):
         sub_params["aiida_resources"] = self.metadata.options.resources
 
         computer = self.node.computer
-        user = User.objects.get_default()
+        user = aiida.orm.User.objects.get_default()
 
         sub_params["mpirun command"] = ' '.join(computer.get_mpirun_command())
         sub_params["connection"] = computer.get_authinfo(user).get_auth_params()
