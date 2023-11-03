@@ -101,6 +101,11 @@ class BigDFTCalculation(CalcJob):
         calcinfo.codes_info = [codeinfo]
 
         list_send = []
+        for file in self.inputs.extra_files_send.get_list():
+            tmp = SinglefileData(os.path.join(os.path.abspath(file)))
+            list_send.append( (tmp.uuid, tmp.filename, tmp.filename) )
+            tmp.store()
+
         calcinfo.local_copy_list = list_send
 
         list_recv = [
