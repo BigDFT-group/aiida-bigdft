@@ -57,7 +57,6 @@ def test_run(code):
         "metadata": {
             "options": {
                 "jobname": "TiO2",
-                "local_dir": '/home/aiida/plugin_work/test',
                 "max_wallclock_seconds": 3600,
                 "queue_name": "short",
                 "resources": {
