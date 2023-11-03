@@ -1,10 +1,3 @@
-"""
-Data types provided by plugin
-
-Register data types via the "aiida.data" entry point in setup.json.
-"""
-# You can directly use or subclass aiida.orm.data.Data
-# or any other data type listed under 'verdi data'
 from voluptuous import Optional, Schema
 
 from aiida.orm import Dict
@@ -12,25 +5,23 @@ from aiida.orm import Dict
 
 class BigDFTParameters(Dict):  # pylint: disable=too-many-ancestors
     """
-    Command line options for diff.
-    This class represents a python dictionary used to
-    pass command line options to the executable.
+    Command line options for a BigDFT calculation.
+
+    This class represents the yaml inputfile which will be passed to the executable.
     """
 
     # pylint: disable=redefined-builtin
-    def __init__(self, dict=None, **kwargs):
+    def __init__(self, dict: dict = None, **kwargs):
         """
         Constructor for the data class
-        Usage: ``DiffParameters(dict{'ignore-case': True})``
+        Usage: ``BigDFTParameters(**parameters)``
         :param parameters_dict: dictionary with commandline parameters
         :param type parameters_dict: dict
         """
         dict = self.validate(dict)
         super().__init__(dict=dict, **kwargs)
 
-    def validate(
-        self, parameters_dict
-    ):  # Can we remove this and put all args within an inpfile?
+    def validate(self, parameters_dict: dict):
         """Validate command line options.
         Uses the voluptuous package for validation. Find out about allowed keys using::
             print(DiffParameters).schema.schema
@@ -38,6 +29,9 @@ class BigDFTParameters(Dict):  # pylint: disable=too-many-ancestors
         :param type parameters_dict: dict
         :returns: validated dictionary
         """
+        if parameters_dict is None:
+            parameters_dict = {}
+
         return parameters_dict
 
     def __str__(self):
