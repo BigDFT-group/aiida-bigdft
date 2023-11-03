@@ -7,6 +7,7 @@ import aiida.orm
 import yaml
 from aiida.common import datastructures
 from aiida.engine import CalcJob
+from aiida.orm import List
 
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
@@ -48,6 +49,9 @@ class BigDFTCalculation(CalcJob):
         spec.input("params_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("input.yaml"))
 
         spec.input("metadata.options.jobname", valid_type=str)
+
+        spec.input("extra_files_send", valid_type=List, default = lambda: List())
+        spec.input("extra_files_recv", valid_type=List, default = lambda: List())
 
         # outputs
         spec.output("logfile", valid_type=BigDFTLogfile)
@@ -96,13 +100,12 @@ class BigDFTCalculation(CalcJob):
         # Prepare a `CalcInfo` to be returned to the engine
         calcinfo = datastructures.CalcInfo()
         calcinfo.codes_info = [codeinfo]
-        calcinfo.local_copy_list = [
-        ]
+        calcinfo.local_copy_list = self.inputs.extra_files_send.get_list()
         calcinfo.retrieve_list = [
             f'log-{jobname}.yaml',
             f"./data-{jobname}/time-{jobname}.yaml",
             ["./debug/bigdft-err*", ".", 2],
-        ]
+        ] + self.inputs.extra_files_recv.get_list()
 
         return calcinfo
 
