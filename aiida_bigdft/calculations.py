@@ -39,9 +39,6 @@ class BigDFTCalculation(CalcJob):
         spec.inputs["metadata"]["options"]["parser_name"].default = "bigdft"
 
         # inputs
-        spec.input("metadata.options.local_dir",
-                   valid_type=str,
-                   help="staging directory for local files")
         spec.input("structure", valid_type=aiida.orm.StructureData)
         spec.input("parameters", valid_type=BigDFTParameters, default=lambda: BigDFTParameters())
 
