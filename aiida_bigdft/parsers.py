@@ -76,12 +76,16 @@ class BigDFTParser(Parser):
             exitcode = self.parse_stderr(stderr)
             if exitcode:
                 self.logger.error("Error in stderr: " + exitcode.message)
-        # jobname = self.node.get_option('jobname')
-        # if jobname is not None:
-        #     output_filename = "log-" + jobname + ".yaml"
-        # Check that folder content is as expected
+
+        metadata = self.node.get_metadata_inputs()["metadata"]
+        jobname = metadata["options"]["jobname"]
+
         files_retrieved = self.retrieved.list_object_names()
-        files_expected = []
+        files_expected = [f"log-{jobname}.yaml",
+                          f"time-{jobname}.yaml"]
+
+        files_expected += self.node.inputs.extra_files_recv.get_list()
+
         # Note: set(A) <= set(B) checks whether A is a subset of B
         if not set(files_expected) <= set(files_retrieved):
             self.logger.error(
