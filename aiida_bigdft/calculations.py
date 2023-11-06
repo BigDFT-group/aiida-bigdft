@@ -41,22 +41,22 @@ class BigDFTCalculation(CalcJob):
         spec.inputs["metadata"]["options"]["parser_name"].default = "bigdft"
 
         # inputs
-        spec.input("structure", valid_type=aiida.orm.StructureData)
-        spec.input("parameters", valid_type=BigDFTParameters, default=lambda: BigDFTParameters())
+        spec.input("structure", valid_type=aiida.orm.StructureData, help="Input structure (AiiDA format)")
+        spec.input("parameters", valid_type=BigDFTParameters, default=lambda: BigDFTParameters(), help="BigDFT Inputfile parameters, as Dict")
 
-        spec.input("structure_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("structure.json"))
-        spec.input("params_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("input.yaml"))
+        spec.input("structure_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("structure.json"), help="Name override for structure file")
+        spec.input("params_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("input.yaml"), help="Name override for parameters file")
 
-        spec.input("metadata.options.jobname", valid_type=str)
+        spec.input("metadata.options.jobname", valid_type=str, help="Scheduler jobname")
 
-        spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List())
-        spec.input("extra_files_recv", valid_type=List, serializer = to_aiida_type, default = lambda: List())
+        spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to send with calculation")
+        spec.input("extra_files_recv", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to retrieve from calculation")
 
         # outputs
-        spec.output("logfile", valid_type=BigDFTLogfile)
-        spec.output("timefile", valid_type=BigDFTFile)
-        spec.output("energy", valid_type=aiida.orm.Float)
-        spec.output("ttotal", valid_type=aiida.orm.Float)
+        spec.output("logfile", valid_type=BigDFTLogfile, help="BigDFT calculation Logfile")
+        spec.output("timefile", valid_type=BigDFTFile, help="BigDFT calculation time log")
+        spec.output("energy", valid_type=aiida.orm.Float, help="Final energy estimate taken from logfile")
+        spec.output("ttotal", valid_type=aiida.orm.Float, help="Estimated total run time (excluding queue)")
 
         spec.exit_code(100, 'ERROR_MISSING_OUTPUT_FILES',
                        message='Calculation did not produce all expected output files.')
