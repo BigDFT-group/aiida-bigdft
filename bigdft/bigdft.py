@@ -35,33 +35,46 @@ def run(structure: str = None,
     Returns:
         BigDFT.Logfile
     """
+    ########################
+    ### submission param ###
+    ########################
     params_sub = {}
     if submission is not None:
         with open(submission, 'r') as o:
             params_sub = yaml.safe_load(o)
 
-    # structure input
+    mpirun_cmd = params_sub["mpirun"]
+
+    ########################
+    ####    structure    ###
+    ########################
     if structure is None:
         structure = 'structure.json'
     structure = os.path.abspath(structure)
-
     struct_ase = ase.io.read(structure)
 
-    # bigdft parameters input
+    # structure proper
+    frag = ase_to_bigdft(struct_ase)
+
+    sys = System()
+    sys['FRA:1'] = frag
+
+    ########################
+    ####   calc params   ###
+    ########################
     if parameters is None:
         parameters = 'input.yaml'
     with open(parameters, 'r') as o:
         parameters = yaml.safe_load(o)
     inp = Inputfile(parameters)
 
-    # calculation proper
-    frag = ase_to_bigdft(struct_ase)
-
-    sys = System()
-    sys['FRA:1'] = frag
-
-    code = SystemCalculator()
-    log = code.run(input=inp, sys=sys, name=params_sub["jobname"])
+    ########################
+    ###    calculation   ###
+    ########################
+    code = SystemCalculator(mpi_run=mpirun_cmd)
+    log = code.run(input=inp,
+                   sys=sys,
+                   name=params_sub["jobname"])
 
     return log
 
