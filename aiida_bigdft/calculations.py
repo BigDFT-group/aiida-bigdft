@@ -27,6 +27,8 @@ class BigDFTCalculation(CalcJob):
     _logfile = "log.yaml"
     _timefile = "time.yaml"
 
+    _defaults = {"jobname": "bigdft_calculation"}
+
     @classmethod
     def define(cls, spec):
         """Define inputs and outputs of the calculation."""
@@ -47,9 +49,9 @@ class BigDFTCalculation(CalcJob):
         spec.input("structure_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("structure.json"), help="Name override for structure file")
         spec.input("params_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("input.yaml"), help="Name override for parameters file")
 
-        spec.input("metadata.options.bigdft_mpirun", valid_type=str, default = lambda: "UNSET", help="Override for bigdft mpirun, defaults to computer.mpirun_command")
+        spec.input("metadata.options.bigdft_mpirun", valid_type=str, default = "UNSET", help="Override for bigdft mpirun, defaults to computer.mpirun_command")
 
-        spec.input("metadata.options.jobname", valid_type=str, default = "bigdft_calculation", help="Scheduler jobname")
+        spec.input("metadata.options.jobname", valid_type=str, default = BigDFTCalculation._defaults["jobname"], help="Scheduler jobname")
 
         spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to send with calculation")
         spec.input("extra_files_recv", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to retrieve from calculation")
