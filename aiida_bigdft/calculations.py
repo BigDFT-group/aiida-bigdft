@@ -49,7 +49,7 @@ class BigDFTCalculation(CalcJob):
 
         spec.input("metadata.options.bigdft_mpirun", valid_type=str, default = lambda: "UNSET", help="Override for bigdft mpirun, defaults to computer.mpirun_command")
 
-        spec.input("metadata.options.jobname", valid_type=str, help="Scheduler jobname")
+        spec.input("metadata.options.jobname", valid_type=str, default = "bigdft_calculation", help="Scheduler jobname")
 
         spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to send with calculation")
         spec.input("extra_files_recv", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to retrieve from calculation")
