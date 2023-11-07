@@ -73,7 +73,7 @@ def run(structure: str = None,
     code = SystemCalculator(mpi_run=mpirun_cmd)
     log = code.run(input=inp,
                    sys=sys,
-                   name=params_sub["jobname"])
+                   name=params_sub.get("jobname", "bigdft_calculation"))
 
     return log
 
