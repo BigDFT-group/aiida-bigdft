@@ -47,6 +47,8 @@ class BigDFTCalculation(CalcJob):
         spec.input("structure_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("structure.json"), help="Name override for structure file")
         spec.input("params_fname", valid_type=aiida.orm.Str, default = lambda: aiida.orm.Str("input.yaml"), help="Name override for parameters file")
 
+        spec.input("metadata.options.bigdft_mpirun", valid_type=str, default = lambda: "UNSET", help="Override for bigdft mpirun, defaults to computer.mpirun_command")
+
         spec.input("metadata.options.jobname", valid_type=str, help="Scheduler jobname")
 
         spec.input("extra_files_send", valid_type=List, serializer = to_aiida_type, default = lambda: List(), help="Extra files to send with calculation")
@@ -134,7 +136,12 @@ class BigDFTCalculation(CalcJob):
         computer = self.node.computer
         user = aiida.orm.User.objects.get_default()
 
-        sub_params["mpirun"] = ' '.join(computer.get_mpirun_command())
+        mpirun = self.metadata.options.bigdft_mpirun
+        if mpirun != "UNSET":
+            sub_params["mpirun"] = mpirun
+        else:
+            sub_params["mpirun"] = computer.get_mpirun_command()[0]
+
         sub_params["connection"] = computer.get_authinfo(user).get_auth_params()
 
         # This actually updates the computer mpirun command permanently
