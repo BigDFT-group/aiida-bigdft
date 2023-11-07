@@ -2,11 +2,12 @@
 Helper functions for setting up
 
  1. An AiiDA localhost computer
- 2. A "diff" code on localhost
+ 2. A "bigdft" code on localhost
 
 Note: Point 2 is made possible by the fact that the ``diff`` executable is
 available in the PATH on almost any UNIX system.
 """
+import os
 import shutil
 import tempfile
 
@@ -61,7 +62,7 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
 
         computer = Computer(
             label=name,
-            description="localhost computer set up by aiida_diff tests",
+            description=f"computer set up by tests, transport {transport}, scheduler {scheduler}",
             hostname=name,
             workdir=workdir,
             transport_type=transport,
@@ -97,10 +98,20 @@ def get_code(entry_point, computer):
     if codes:
         return codes[0]
 
-    path = get_path_to_executable(executable)
+    # bigdft source
+    path, file = os.path.split(get_path_to_executable(executable))
+    sourcefile = os.path.join(path, "bigdftvars.sh")
+
+    # bigdft.py location
+    import bigdft
+    bigdft_script_path = os.path.join(os.path.split(bigdft.__file__)[0], "bigdft.py")
+
     code = Code(
         input_plugin_name=entry_point,
-        remote_computer_exec=[computer, path],
+        remote_computer_exec=[computer, bigdft_script_path],
     )
     code.label = executable
+
+    code.prepend_text = f"source {sourcefile}"
+
     return code.store()
