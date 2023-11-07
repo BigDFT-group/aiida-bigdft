@@ -42,7 +42,10 @@ def run(structure: str = None,
         with open(submission, 'r') as o:
             params_sub = yaml.safe_load(o)
 
-    mpirun_cmd = params_sub["mpirun"]
+    calc_args = {}
+
+    if "mpirun" in params_sub:
+        calc_args["mpi_run"] = params_sub["mpirun"]
 
     ########################
     ####    structure    ###
@@ -70,7 +73,7 @@ def run(structure: str = None,
     ########################
     ###    calculation   ###
     ########################
-    code = SystemCalculator(mpi_run=mpirun_cmd)
+    code = SystemCalculator(**calc_args)
     log = code.run(input=inp,
                    sys=sys,
                    name=params_sub.get("jobname", "bigdft_calculation"))
