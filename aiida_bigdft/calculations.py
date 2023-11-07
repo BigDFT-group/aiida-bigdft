@@ -134,7 +134,7 @@ class BigDFTCalculation(CalcJob):
         computer = self.node.computer
         user = aiida.orm.User.objects.get_default()
 
-        sub_params["mpirun command"] = ' '.join(computer.get_mpirun_command())
+        sub_params["mpirun"] = ' '.join(computer.get_mpirun_command())
         sub_params["connection"] = computer.get_authinfo(user).get_auth_params()
 
         # This actually updates the computer mpirun command permanently
