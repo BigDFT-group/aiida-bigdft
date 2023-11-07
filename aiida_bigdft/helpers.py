@@ -11,10 +11,9 @@ import os
 import shutil
 import tempfile
 
+from aiida import __version__
 from aiida.common.exceptions import NotExistent
 from aiida.orm import Code, Computer
-
-from aiida import __version__
 
 LOCALHOST_NAME = "localhost"
 
@@ -56,9 +55,9 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
 
         transport = "local"
         scheduler = "direct"
-        if int(__version__.split('.')[0]) >= 2:
-            transport = f'core.{transport}'
-            scheduler = f'core.{scheduler}'
+        if int(__version__.split(".")[0]) >= 2:
+            transport = f"core.{transport}"
+            scheduler = f"core.{scheduler}"
 
         computer = Computer(
             label=name,
@@ -104,6 +103,7 @@ def get_code(entry_point, computer):
 
     # bigdft.py location
     import bigdft
+
     bigdft_script_path = os.path.join(os.path.split(bigdft.__file__)[0], "bigdft.py")
 
     code = Code(

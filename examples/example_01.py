@@ -23,8 +23,7 @@ def test_run(code):
     if not code:
         # get code
         computer = helpers.get_computer()
-        code = helpers.get_code(entry_point="bigdft",
-                                computer=computer)
+        code = helpers.get_code(entry_point="bigdft", computer=computer)
 
     alat = 4  # angstrom
     cell = [
@@ -50,7 +49,7 @@ def test_run(code):
     s.append_atom(position=(alat / 2, alat / 2, 0), symbols="O")
     s.append_atom(position=(alat / 2, 0, alat / 2), symbols="O")
 
-    print(f'running code {code}')
+    print(f"running code {code}")
     inputs = {
         "code": code,
         "structure": s,

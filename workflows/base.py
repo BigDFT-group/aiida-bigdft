@@ -2,21 +2,24 @@
 Basic wrapping workchain on a BigDFT computation.
 
 """
-from aiida import orm
-from aiida.common.extendeddicts import AttributeDict
-from aiida.engine import BaseRestartWorkChain, while_, ExitCode
-from aiida.plugins import CalculationFactory, DataFactory
-
-from aiida.engine.processes.workchains.utils import process_handler, ProcessHandlerReport
+import re
 
 from futile import YamlIO
-import re
+
+from aiida import orm
+from aiida.common.extendeddicts import AttributeDict
+from aiida.engine import BaseRestartWorkChain, ExitCode, while_
+from aiida.engine.processes.workchains.utils import (
+    ProcessHandlerReport,
+    process_handler,
+)
+from aiida.plugins import CalculationFactory, DataFactory
 
 from aiida_bigdft.calculations import BigDFTCalculation
 
-Dict = DataFactory('dict')
+Dict = DataFactory("dict")
 
-RemoteData = DataFactory('remote')
+RemoteData = DataFactory("remote")
 
 
 class BigDFTBaseWorkChain(BaseRestartWorkChain):
@@ -25,14 +28,15 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
 
     @classmethod
     def define(cls, spec):
-        super(BigDFTBaseWorkChain, cls).define(spec)
-        spec.input('show_warnings', valid_type=orm.Bool,
-                   default=lambda: orm.Bool(True),
-                   help='turn the warnings on/off.')
-        spec.input('run_opts', valid_type=Dict,
-                    required=False,
-                    help='metadata')
-        spec.expose_inputs(BigDFTCalculation, exclude=('metadata',))
+        super().define(spec)
+        spec.input(
+            "show_warnings",
+            valid_type=orm.Bool,
+            default=lambda: orm.Bool(True),
+            help="turn the warnings on/off.",
+        )
+        spec.input("run_opts", valid_type=Dict, required=False, help="metadata")
+        spec.expose_inputs(BigDFTCalculation, exclude=("metadata",))
 
         spec.outline(
             cls.setup,
@@ -44,19 +48,25 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
         )
         spec.expose_outputs(BigDFTCalculation)
         # this one needs to be optional to avoid being checked wrongly by the restartworkchain
-        spec.exit_code(100, 'ERROR_INPUT',
-                       message='BigDFT input error')
-        spec.exit_code(200, 'ERROR_RUNTIME',
-                       message='BigDFT runtime error')
+        spec.exit_code(100, "ERROR_INPUT", message="BigDFT input error")
+        spec.exit_code(200, "ERROR_RUNTIME", message="BigDFT runtime error")
 
-    @process_handler(priority=610, exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_WALLTIME)
+    @process_handler(
+        priority=610, exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_WALLTIME
+    )
     def check_out_of_time(self, node):
-        self.report_error_handled(node, 'OOW - simply restart from the last calculation')
+        self.report_error_handled(
+            node, "OOW - simply restart from the last calculation"
+        )
         return ProcessHandlerReport(do_break=True)
 
-    @process_handler(priority=620, exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_MEMORY)
+    @process_handler(
+        priority=620, exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_MEMORY
+    )
     def check_out_of_mem(self, node):
-        self.report_error_handled(node, 'OOM - simply restart from the last calculation')
+        self.report_error_handled(
+            node, "OOM - simply restart from the last calculation"
+        )
         return ProcessHandlerReport(do_break=True)
 
     @process_handler(priority=600)
@@ -66,9 +76,9 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
         if "jobname" in self.ctx.inputs.metadata.options:
             jobname = self.ctx.inputs.metadata.options.jobname
         else:
-            jobname = 'BigDFT job'
+            jobname = "BigDFT job"
         try:
-            posout_list = repo.list_objects('debug')
+            posout_list = repo.list_objects("debug")
         except FileNotFoundError:
             return
         for filename in posout_list:
@@ -97,13 +107,13 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
     @process_handler(priority=590)
     def check_warnings(self, calculation):
         if calculation.is_finished_ok and self.inputs.show_warnings:
-            logfile=calculation.outputs.bigdft_logfile.logfile
-            if(isinstance(logfile, list)):
-                warnings = logfile[-1].get('WARNINGS')
+            logfile = calculation.outputs.bigdft_logfile.logfile
+            if isinstance(logfile, list):
+                warnings = logfile[-1].get("WARNINGS")
             else:
-                warnings = logfile.get('WARNINGS')
+                warnings = logfile.get("WARNINGS")
             if warnings is not None:
-                self.report('Warnings were found :')
+                self.report("Warnings were found :")
                 for warn in warnings:
                     self.report(warn)
 
@@ -113,16 +123,15 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
             if "jobname" in self.ctx.inputs.metadata.options:
                 jobname = self.ctx.inputs.metadata.options.jobname
             else:
-                jobname = 'BigDFT job'
-            self.report('{}<{}> completed successfully'.
-                        format(jobname, calculation.pk))
+                jobname = "BigDFT job"
+            self.report("{}<{}> completed successfully".format(jobname, calculation.pk))
             self.ctx.restart_calc = calculation
             self.ctx.is_finished = True
 
     def setup(self):
         super().setup()
         self.ctx.inputs = AttributeDict(self.exposed_inputs(BigDFTCalculation))
-        if self.inputs.get('run_opts') is not None:
+        if self.inputs.get("run_opts") is not None:
             self.ctx.inputs.metadata = AttributeDict(self.inputs.run_opts.get_dict())
         else:
             self.ctx.inputs.metadata = {}

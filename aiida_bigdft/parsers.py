@@ -8,8 +8,8 @@ import re
 
 from aiida.common import exceptions
 from aiida.engine import ExitCode
-from aiida.parsers.parser import Parser
 import aiida.orm
+from aiida.parsers.parser import Parser
 
 from aiida_bigdft.calculations import BigDFTCalculation
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
@@ -78,11 +78,12 @@ class BigDFTParser(Parser):
                 self.logger.error("Error in stderr: " + exitcode.message)
 
         metadata = self.node.get_metadata_inputs()["metadata"]
-        jobname = metadata["options"].get("jobname", BigDFTCalculation._defaults["jobname"])
+        jobname = metadata["options"].get(
+            "jobname", BigDFTCalculation._defaults["jobname"]
+        )
 
         files_retrieved = self.retrieved.list_object_names()
-        files_expected = [f"log-{jobname}.yaml",
-                          f"time-{jobname}.yaml"]
+        files_expected = [f"log-{jobname}.yaml", f"time-{jobname}.yaml"]
 
         files_expected += self.node.inputs.extra_files_recv.get_list()
 
@@ -94,7 +95,7 @@ class BigDFTParser(Parser):
             return self.exit_codes.ERROR_MISSING_OUTPUT_FILES
 
         jobname = self.node.get_option("jobname")
-        output_filename = f'log-{jobname}.yaml'
+        output_filename = f"log-{jobname}.yaml"
         logfile = self.parse_file(output_filename, "logfile", exitcode)
         timefile = self.parse_file(f"time-{jobname}.yaml", "timefile", exitcode)
 
