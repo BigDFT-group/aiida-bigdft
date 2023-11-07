@@ -15,7 +15,7 @@ from aiida.orm import Code, Computer
 
 from aiida import __version__
 
-LOCALHOST_NAME = "localhost-test"
+LOCALHOST_NAME = "localhost"
 
 executables = {
     "bigdft": "bigdft",
