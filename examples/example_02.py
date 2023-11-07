@@ -60,7 +60,7 @@ def test_run(code):
         "extra_files_send": ["test.txt"],
         "metadata": {
             "options": {
-                "jobname": "TiO2",
+                # "jobname": "TiO2",
                 "max_wallclock_seconds": 3600,
                 "queue_name": "short",
                 "bigdft_mpirun": "mpirun",
