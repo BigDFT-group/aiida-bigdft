@@ -63,6 +63,7 @@ def test_run(code):
                 "jobname": "TiO2",
                 "max_wallclock_seconds": 3600,
                 "queue_name": "short",
+                "bigdft_mpirun": "mpirun",
                 "resources": {
                     # "num_cores_per_machine": 16,
                     "num_cores_per_mpiproc": 1,
