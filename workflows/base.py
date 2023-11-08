@@ -124,7 +124,7 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
                 jobname = self.ctx.inputs.metadata.options.jobname
             else:
                 jobname = "BigDFT job"
-            self.report("{}<{}> completed successfully".format(jobname, calculation.pk))
+            self.report(f"{jobname}<{calculation.pk}> completed successfully")
             self.ctx.restart_calc = calculation
             self.ctx.is_finished = True
 

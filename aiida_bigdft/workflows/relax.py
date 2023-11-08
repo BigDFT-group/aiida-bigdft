@@ -128,9 +128,7 @@ class BigDFTRelaxWorkChain(WorkChain):
         workchain = self.ctx.work[-1]
 
         if not workchain.is_finished_ok:
-            self.report(
-                "Relaxation failed with exit status {}".format(workchain.exit_status)
-            )
+            self.report(f"Relaxation failed with exit status {workchain.exit_status}")
             return self.exit_codes.ERROR_FAILED_RELAX
         extension = "xyz"
         posinp = self.inputs.parameters.dict.get("posinp")
