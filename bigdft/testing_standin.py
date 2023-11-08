@@ -1,12 +1,5 @@
 #!/usr/bin/python3
-import os.path
 
-from BigDFT.Calculators import SystemCalculator
-from BigDFT.Inputfiles import Inputfile
-from BigDFT.Interop.ASEInterop import ase_to_bigdft
-from BigDFT.Logfiles import Logfile
-from BigDFT.Systems import System
-import ase.io
 import click
 import yaml
 
@@ -42,10 +35,10 @@ def run(
 
     jobname = params_sub["jobname"]
 
-    with open(f"log-{jobname}.yaml") as o:
+    with open(f"log-{jobname}.yaml", "w+") as o:
         yaml.dump({}, o)
 
-    with open(f"time-{jobname}.yaml") as o:
+    with open(f"time-{jobname}.yaml", "w+") as o:
         yaml.dump({}, o)
 
     return {"result": True}
