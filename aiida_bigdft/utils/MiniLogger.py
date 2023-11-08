@@ -1,10 +1,4 @@
 from datetime import datetime
-import os.path
-
-_FILES = {
-    "bigdft.py": "/home/aiida/plugin_work/pybigdft.log",
-    "aiida": "/home/aiida/plugin_work/aiida.log",
-}
 
 
 class MiniLogger:
