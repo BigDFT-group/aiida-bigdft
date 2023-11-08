@@ -16,6 +16,12 @@ from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 
 
+_DEFAULT_PARAMS = {
+    "dft": {"ixc": "LDA", "itermax": "5"},
+    "output": {"orbitals": "binary"}
+}
+
+
 class BigDFTCalculation(CalcJob):
     """
     AiiDA calculation plugin wrapping the diff executable.
@@ -52,7 +58,7 @@ class BigDFTCalculation(CalcJob):
         spec.input(
             "parameters",
             valid_type=BigDFTParameters,
-            default=lambda: BigDFTParameters(),
+            default=lambda: BigDFTParameters(_DEFAULT_PARAMS),
             help="BigDFT Inputfile parameters, as Dict",
         )
 
