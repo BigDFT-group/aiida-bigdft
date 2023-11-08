@@ -28,11 +28,7 @@ def test_run(code):
     with open("test.txt", "w+") as o:
         o.write("")
 
-    cell = [
-        [2, 0, 0],
-        [0, 2, 0],
-        [0, 0, 2]
-    ]
+    cell = [[2, 0, 0], [0, 2, 0], [0, 0, 2]]
     s = StructureData(cell=cell)
     s.append_atom(position=(0, 0, 0), symbols="C")
 
