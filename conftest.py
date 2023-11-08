@@ -15,5 +15,5 @@ def clear_database_auto(clear_database):  # pylint: disable=unused-argument
 def bigdft_code():
     """Get a bigdft code."""
     computer = helpers.get_computer()
-    code = helpers.get_code(entry_point="bigdft", computer=computer)
+    code = helpers.get_code(entry_point="bigdft", computer=computer, force_create=True)
     return code

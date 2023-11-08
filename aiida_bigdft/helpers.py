@@ -15,7 +15,7 @@ from aiida import __version__
 from aiida.common.exceptions import NotExistent
 from aiida.orm import Code, Computer
 
-import bigdft
+import aiida_bigdft
 
 LOCALHOST_NAME = "localhost"
 
@@ -76,7 +76,7 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
     return computer
 
 
-def get_code(entry_point, computer):
+def get_code(entry_point, computer, force_create: bool = False):
     """Get local code.
     Sets up code for given entry point on given computer.
 
@@ -96,22 +96,21 @@ def get_code(entry_point, computer):
     codes = Code.objects.find(  # pylint: disable=no-member
         filters={"label": executable}
     )
-    if codes:
+    if codes and not force_create:
         return codes[0]
 
-    # bigdft source
-    path, file = os.path.split(get_path_to_executable(executable))
-    sourcefile = os.path.join(path, "bigdftvars.sh")
-
-    # bigdft.py location
-    bigdft_script_path = os.path.join(os.path.split(bigdft.__file__)[0], "bigdft.py")
+    aiida_bigdft_root = aiida_bigdft.__file__
+    aiida_bigdft_pyfile = os.path.join(
+        aiida_bigdft_root.split("aiida-bigdft", maxsplit=1)[0],
+        "aiida-bigdft",
+        "bigdft",
+        "testing_standin.py",
+    )
 
     code = Code(
         input_plugin_name=entry_point,
-        remote_computer_exec=[computer, bigdft_script_path],
+        remote_computer_exec=[computer, aiida_bigdft_pyfile],
     )
     code.label = executable
-
-    code.prepend_text = f"source {sourcefile}"
 
     return code.store()
