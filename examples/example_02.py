@@ -28,29 +28,13 @@ def test_run(code):
     with open("test.txt", "w+") as o:
         o.write("")
 
-    alat = 4  # angstrom
     cell = [
-        [
-            alat,
-            0,
-            0,
-        ],
-        [
-            0,
-            alat,
-            0,
-        ],
-        [
-            0,
-            0,
-            alat,
-        ],
+        [2, 0, 0],
+        [0, 2, 0],
+        [0, 0, 2]
     ]
-
     s = StructureData(cell=cell)
-    s.append_atom(position=(alat / 2, alat / 2, alat / 2), symbols="Ti")
-    s.append_atom(position=(alat / 2, alat / 2, 0), symbols="O")
-    s.append_atom(position=(alat / 2, 0, alat / 2), symbols="O")
+    s.append_atom(position=(0, 0, 0), symbols="C")
 
     print(f"running code {code}")
     inputs = {
@@ -59,16 +43,8 @@ def test_run(code):
         "extra_files_send": ["test.txt"],
         "metadata": {
             "options": {
-                # "jobname": "TiO2",
+                "jobname": "Mono_Carbon",
                 "max_wallclock_seconds": 3600,
-                "queue_name": "short",
-                "bigdft_mpirun": "mpirun",
-                "resources": {
-                    # "num_cores_per_machine": 16,
-                    "num_cores_per_mpiproc": 1,
-                    "num_mpiprocs_per_machine": 1,
-                    "num_machines": 1,
-                },
                 "withmpi": False,
             }
         },
