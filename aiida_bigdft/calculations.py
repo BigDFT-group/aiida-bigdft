@@ -15,10 +15,9 @@ from aiida.orm import List, SinglefileData, to_aiida_type
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
 from aiida_bigdft.data.BigDFTParameters import BigDFTParameters
 
-
 _DEFAULT_PARAMS = {
     "dft": {"ixc": "LDA", "itermax": "5"},
-    "output": {"orbitals": "binary"}
+    "output": {"orbitals": "binary"},
 }
 
 
