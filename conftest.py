@@ -1,6 +1,8 @@
 """pytest fixtures for simplified testing."""
 import pytest
 
+from aiida_bigdft import helpers
+
 pytest_plugins = ["aiida.manage.tests.pytest_fixtures"]
 
 
@@ -10,6 +12,8 @@ def clear_database_auto(clear_database):  # pylint: disable=unused-argument
 
 
 @pytest.fixture(scope="function")
-def bigdft_code(aiida_local_code_factory):
+def bigdft_code():
     """Get a bigdft code."""
-    return aiida_local_code_factory(executable="diff", entry_point="bigdft")
+    computer = helpers.get_computer()
+    code = helpers.get_code(entry_point="bigdft", computer=computer)
+    return code
