@@ -8,9 +8,7 @@ import yaml
 @click.option("--structure", help="path to structure json file")
 @click.option("--parameters", help="yaml dumped dft parameters")
 @click.option("--submission", help="extra submission parameters")
-def run(
-    structure: str = None, parameters: str = None, submission: str = None
-) -> dict:
+def run(structure: str = None, parameters: str = None, submission: str = None) -> dict:
     """
     Run the calculation. Requires three file path inputs:
 
