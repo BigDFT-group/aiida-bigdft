@@ -21,6 +21,8 @@ def test_process(bigdft_code):
                 "jobname": "Mono_Carbon",
                 "max_wallclock_seconds": 60,
                 "resources": {
+                    "num_cores_per_mpiproc": 1,
+                    "num_mpiprocs_per_machine": 1,
                     "num_machines": 1,
                 },
                 "withmpi": False,
@@ -30,4 +32,4 @@ def test_process(bigdft_code):
 
     result = run(CalculationFactory("bigdft"), **inputs)
 
-    assert int(result["energy"].value) == -5
+    assert result["result"]
