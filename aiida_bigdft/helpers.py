@@ -15,6 +15,8 @@ from aiida import __version__
 from aiida.common.exceptions import NotExistent
 from aiida.orm import Code, Computer
 
+import bigdft
+
 LOCALHOST_NAME = "localhost"
 
 executables = {
@@ -55,7 +57,7 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
 
         transport = "local"
         scheduler = "direct"
-        if int(__version__.split(".")[0]) >= 2:
+        if int(__version__.split(".", maxsplit=1)[0]) >= 2:
             transport = f"core.{transport}"
             scheduler = f"core.{scheduler}"
 
@@ -102,8 +104,6 @@ def get_code(entry_point, computer):
     sourcefile = os.path.join(path, "bigdftvars.sh")
 
     # bigdft.py location
-    import bigdft
-
     bigdft_script_path = os.path.join(os.path.split(bigdft.__file__)[0], "bigdft.py")
 
     code = Code(
