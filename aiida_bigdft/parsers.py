@@ -82,8 +82,11 @@ class BigDFTParser(Parser):
             "jobname", BigDFTCalculation._defaults["jobname"]
         )
 
+        output_filename = f"log-{jobname}.yaml"
+        time_filename = f"time-{jobname}.yaml"
+
         files_retrieved = self.retrieved.list_object_names()
-        files_expected = [f"log-{jobname}.yaml", f"time-{jobname}.yaml"]
+        files_expected = [output_filename, time_filename]
 
         files_expected += self.node.inputs.extra_files_recv.get_list()
 
@@ -94,10 +97,8 @@ class BigDFTParser(Parser):
             )
             return self.exit_codes.ERROR_MISSING_OUTPUT_FILES
 
-        jobname = self.node.get_option("jobname")
-        output_filename = f"log-{jobname}.yaml"
         logfile = self.parse_file(output_filename, "logfile", exitcode)
-        timefile = self.parse_file(f"time-{jobname}.yaml", "timefile", exitcode)
+        timefile = self.parse_file(time_filename, "timefile", exitcode)
 
         self.out("logfile", logfile)
         self.out("timefile", timefile)
