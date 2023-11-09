@@ -34,7 +34,7 @@ class BigDFTParser(Parser):
             raise exceptions.ParsingError("Can only parse DiffCalculation")
 
     def parse_stderr(self, inputfile):
-        """Parse the stderr file to get commong errors, such as OOM or timeout.
+        """Parse the stderr file to get common errors, such as OOM or timeout.
 
         :param inputfile: stderr file
         :returns: exit code in case of an error, None otherwise
