@@ -1,5 +1,5 @@
 """
-Parsers provided by aiida_bigdft_new.
+Parsers provided by aiida_bigdft.
 
 Register parsers via the "aiida.parsers" entry point in setup.json.
 """
@@ -36,7 +36,7 @@ class BigDFTParser(Parser):
     def parse_stderr(self, inputfile):
         """Parse the stderr file to get commong errors, such as OOM or timeout.
 
-        :param i inputfile: stderr file
+        :param inputfile: stderr file
         :returns: exit code in case of an error, None otherwise
         """
         timeout_messages = {
