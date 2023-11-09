@@ -13,7 +13,7 @@ import tempfile
 
 from aiida import __version__
 from aiida.common.exceptions import NotExistent
-from aiida.orm import Code, Computer
+from aiida.orm import Code, Computer, InstalledCode
 
 import aiida_bigdft
 
@@ -107,9 +107,10 @@ def get_code(entry_point, computer, force_create: bool = False):
         "testing_standin.py",
     )
 
-    code = Code(
+    code = InstalledCode(
         input_plugin_name=entry_point,
-        remote_computer_exec=[computer, aiida_bigdft_pyfile],
+        computer=computer,
+        filepath_executable=aiida_bigdft_pyfile
     )
     code.label = executable
 
