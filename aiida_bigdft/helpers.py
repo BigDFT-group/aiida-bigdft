@@ -110,7 +110,7 @@ def get_code(entry_point, computer, force_create: bool = False):
     code = InstalledCode(
         input_plugin_name=entry_point,
         computer=computer,
-        filepath_executable=aiida_bigdft_pyfile
+        filepath_executable=aiida_bigdft_pyfile,
     )
     code.label = executable
 
