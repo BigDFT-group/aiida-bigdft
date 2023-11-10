@@ -11,13 +11,8 @@ from aiida.engine.processes.workchains.utils import (
     ProcessHandlerReport,
     process_handler,
 )
-from aiida.plugins import DataFactory
 
 from aiida_bigdft.calculations import BigDFTCalculation
-
-Dict = DataFactory("dict")
-
-RemoteData = DataFactory("remote")
 
 
 class BigDFTBaseWorkChain(BaseRestartWorkChain):
@@ -33,7 +28,7 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
             default=lambda: orm.Bool(True),
             help="turn the warnings on/off.",
         )
-        spec.input("run_opts", valid_type=Dict, required=False, help="metadata")
+        spec.input("run_opts", valid_type=orm.Dict, required=False, help="metadata")
         spec.expose_inputs(BigDFTCalculation, exclude=("metadata",))
 
         spec.outline(
