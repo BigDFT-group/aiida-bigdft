@@ -33,10 +33,10 @@ def run(structure: str = None, parameters: str = None, submission: str = None) -
 
     jobname = params_sub["jobname"]
 
-    with open(f"log-{jobname}.yaml", "w+") as o:
+    with open(f"log-{jobname}.yaml", "w+", encoding="utf8") as o:
         yaml.dump({}, o)
 
-    with open(f"time-{jobname}.yaml", "w+") as o:
+    with open(f"time-{jobname}.yaml", "w+", encoding="utf8") as o:
         yaml.dump({}, o)
 
     return {"result": True}

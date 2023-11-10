@@ -1,5 +1,3 @@
-from voluptuous import Optional, Schema
-
 from aiida.orm import Dict
 
 

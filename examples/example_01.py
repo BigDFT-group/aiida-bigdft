@@ -2,9 +2,6 @@
 """Run a test calculation on localhost.
 Usage: ./example_01.py
 """
-import os
-from os import path
-
 import click
 
 from aiida import cmdline
