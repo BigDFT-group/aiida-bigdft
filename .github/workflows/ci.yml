@@ -65,7 +65,7 @@ jobs:
         pip install -e .[docs]
     - name: Build docs
       run: |
-        cd docs && make & make
+        cd docs && make
 
   pre-commit:
     runs-on: ubuntu-latest
