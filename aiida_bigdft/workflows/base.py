@@ -4,16 +4,14 @@ Basic wrapping workchain on a BigDFT computation.
 """
 import re
 
-from futile import YamlIO
-
 from aiida import orm
 from aiida.common.extendeddicts import AttributeDict
-from aiida.engine import BaseRestartWorkChain, ExitCode, while_
+from aiida.engine import BaseRestartWorkChain, while_
 from aiida.engine.processes.workchains.utils import (
     ProcessHandlerReport,
     process_handler,
 )
-from aiida.plugins import CalculationFactory, DataFactory
+from aiida.plugins import DataFactory
 
 from aiida_bigdft.calculations import BigDFTCalculation
 
