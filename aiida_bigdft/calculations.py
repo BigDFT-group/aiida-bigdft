@@ -202,6 +202,10 @@ class BigDFTCalculation(CalcJob):
         return calcinfo
 
     def dump_submission_parameters(self, folder):
+        """
+        Dump the internal resource request values to the --submission file that bigdft.py is expecting
+
+        """
         sub_params_file = "submission_parameters.yaml"
         sub_params = {"jobname": self.metadata.options.jobname}
 

@@ -16,11 +16,18 @@ from aiida_bigdft.calculations import BigDFTCalculation
 
 
 class BigDFTBaseWorkChain(BaseRestartWorkChain):
+    """
+    BigDFTBaseWorkChain
+
+    """
 
     _process_class = BigDFTCalculation
 
     @classmethod
     def define(cls, spec):
+        """
+        Base AiiDA define(cls, spec) method
+        """
         super().define(spec)
         spec.input(
             "show_warnings",
@@ -45,18 +52,26 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
         spec.exit_code(200, "ERROR_RUNTIME", message="BigDFT runtime error")
 
     @process_handler(
-        priority=610, exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_WALLTIME
+        priority=610,
+        exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_WALLTIME,  # pylint: disable=no-member
     )
     def check_out_of_time(self, node):
+        """
+        Scan for OOW error
+        """
         self.report_error_handled(
             node, "OOW - simply restart from the last calculation"
         )
         return ProcessHandlerReport(do_break=True)
 
     @process_handler(
-        priority=620, exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_MEMORY
+        priority=620,
+        exit_codes=BigDFTCalculation.exit_codes.ERROR_OUT_OF_MEMORY,  # pylint: disable=no-member
     )
     def check_out_of_mem(self, node):
+        """
+        Scan for OOM error
+        """
         self.report_error_handled(
             node, "OOM - simply restart from the last calculation"
         )
@@ -64,6 +79,9 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
 
     @process_handler(priority=600)
     def check_debug_output(self, calculation):
+        """
+        Search for and parse a BigDFT debug file
+        """
         repo = calculation.outputs.retrieved
         # debug folder exists, error probably happened.
         if "jobname" in self.ctx.inputs.metadata.options:
@@ -99,6 +117,9 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
 
     @process_handler(priority=590)
     def check_warnings(self, calculation):
+        """
+        Raise any detected warnings on a successful run
+        """
         if calculation.is_finished_ok and self.inputs.show_warnings:
             logfile = calculation.outputs.bigdft_logfile.logfile
             if isinstance(logfile, list):

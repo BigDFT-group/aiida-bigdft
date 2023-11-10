@@ -81,6 +81,8 @@ disable = [
     "too-many-ancestors",
     "invalid-name",
     "duplicate-code",
+    "unnecessary-lambda",
+    "protected-access",
 ]
 
 [tool.pytest.ini_options]

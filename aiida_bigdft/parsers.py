@@ -124,7 +124,7 @@ class BigDFTParser(Parser):
         # add output file
         self.logger.info(f"Parsing '{output_filename}'")
         try:
-            with open(output_filename, "w+") as tmp:
+            with open(output_filename, "w+", encoding="utf8") as tmp:
                 tmp.write(self.retrieved.get_object_content(output_filename))
                 if name == "logfile":
                     output = BigDFTLogfile(os.path.join(os.getcwd(), output_filename))

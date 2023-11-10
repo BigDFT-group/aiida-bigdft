@@ -129,7 +129,7 @@ class BigDFTRelaxWorkChain(WorkChain):
 
         if not workchain.is_finished_ok:
             self.report(f"Relaxation failed with exit status {workchain.exit_status}")
-            return self.exit_codes.ERROR_FAILED_RELAX
+            return self.exit_codes.ERROR_FAILED_RELAX  # pylint: disable=no-member
         extension = "xyz"
         posinp = self.inputs.parameters.dict.get("posinp")
         if posinp is not None:
@@ -165,7 +165,9 @@ class BigDFTRelaxWorkChain(WorkChain):
                 if not posout_list:
                     # not even, we failed. Should have been caught before.
                     self.report("Relaxation failed - no output found")
-                    return self.exit_codes.ERROR_FAILED_RELAX
+                    return (
+                        self.exit_codes.ERROR_FAILED_RELAX
+                    )  # pylint: disable=no-member
                 sf = repo.get_object_content(posout_list.sort()[-1])
         else:
             # no relaxation performed, file is named forces_posinp.xyz .. or yaml
@@ -182,7 +184,7 @@ class BigDFTRelaxWorkChain(WorkChain):
                 sf = repo.get_object_content(outstruct)
             except OSError:
                 self.report("Relaxation failed - no output found named ", outstruct)
-                return self.exit_codes.ERROR_FAILED_RELAX
+                return self.exit_codes.ERROR_FAILED_RELAX  # pylint: disable=no-member
 
         s = StructureData()
         # BigDFT xyz files have more data on the first line which confuse aiida
@@ -242,7 +244,7 @@ class BigDFTRelaxWorkChain(WorkChain):
             logl = YamlIO.load(stream=sf, archive=None)
             if logl is None:
                 self.report("Relaxation failed - no output position file found")
-                return self.exit_codes.ERROR_FAILED_RELAX
+                return self.exit_codes.ERROR_FAILED_RELAX  # pylint: disable=no-member
             log = logl[0]
             s.cell = log["abc"]
             for i in log["positions"]:
@@ -251,6 +253,6 @@ class BigDFTRelaxWorkChain(WorkChain):
             self.report(
                 "Relaxation failed - no parsing available for output type " + extension
             )
-            return self.exit_codes.ERROR_FAILED_RELAX
+            return self.exit_codes.ERROR_FAILED_RELAX  # pylint: disable=no-member
         self.out("relaxed_structure", s.store())
         self.out_many(self.exposed_outputs(workchain, BigDFTBaseWorkChain))

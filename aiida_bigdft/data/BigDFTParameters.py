@@ -1,3 +1,7 @@
+"""
+Module storing a BigDFT inputfile as an AiiDA Dict
+"""
+
 from aiida.orm import Dict
 
 

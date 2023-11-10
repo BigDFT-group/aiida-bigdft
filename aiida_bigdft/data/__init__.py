@@ -1,3 +1,7 @@
+"""
+aiida-bigdft data module
+
+"""
 from .BigDFTFile import BigDFTFile, BigDFTLogfile
 from .BigDFTParameters import BigDFTParameters
 

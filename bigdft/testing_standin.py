@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+Testing class to mimic bigdft.py within the CI. Any validation is to be performed here.
+
+"""
 
 import click
 import yaml
@@ -8,7 +12,11 @@ import yaml
 @click.option("--structure", help="path to structure json file")
 @click.option("--parameters", help="yaml dumped dft parameters")
 @click.option("--submission", help="extra submission parameters")
-def run(structure: str = None, parameters: str = None, submission: str = None) -> dict:
+def run(
+    structure: str = None,  # pylint: disable=unused-argument
+    parameters: str = None,  # pylint: disable=unused-argument
+    submission: str = None,
+) -> dict:
     """
     Run the calculation. Requires three file path inputs:
 
@@ -28,7 +36,7 @@ def run(structure: str = None, parameters: str = None, submission: str = None) -
     ########################
     params_sub = {}
     if submission is not None:
-        with open(submission) as o:
+        with open(submission, encoding="utf8") as o:
             params_sub = yaml.safe_load(o)
 
     jobname = params_sub["jobname"]

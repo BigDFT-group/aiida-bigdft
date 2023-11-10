@@ -25,7 +25,7 @@ class BigDFTFile(SinglefileData):
         Attempts to open the stored file, returning an empty dict on failure
         """
         try:
-            with self.open() as o:
+            with self.open() as o:  # pylint: disable=not-context-manager
                 return yaml.safe_load(o)
         except FileNotFoundError:
             self.logger.warning(f"file {self.filename} could not be opened!")
@@ -49,7 +49,7 @@ class BigDFTFile(SinglefileData):
         """
         path = path or os.path.join(os.getcwd(), self.filename)
 
-        with self.open() as inp:
+        with self.open() as inp:  # pylint: disable=not-context-manager
             with open(path, "w+", encoding="utf8") as out:
                 out.write(inp.read())
 
