@@ -28,6 +28,8 @@ repos:
 - repo: local
   hooks:
   - id: pylint
+    args:
+      - --fail-under=8
     language: system
     types: [file, python]
     name: pylint
