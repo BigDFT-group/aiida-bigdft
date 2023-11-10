@@ -64,7 +64,9 @@ jobs:
         pip install --upgrade pip
         pip install -e .[docs]
     - name: Build docs
-      run: cd docs && make
+      run: |
+        cd docs && make
+        cd docs && make
 
   pre-commit:
     runs-on: ubuntu-latest
