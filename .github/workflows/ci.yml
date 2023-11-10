@@ -65,7 +65,7 @@ jobs:
         pip install -e .[docs]
     - name: Build docs
       run: |
-        cd docs 
+        cd docs
         sphinx-build -ab html source build
 
   pre-commit:
