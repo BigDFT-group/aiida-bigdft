@@ -1,4 +1,18 @@
 #!/usr/bin/python3
+"""
+Executable script to create and launch a BigDFT calculation from the inputs.
+
+Requires:
+- structure.json (from ase.write())
+- input.yaml
+
+And optionally (advised):
+- submission.yaml
+
+call with
+
+./bigdft.py --structure structure.json --parameters input.yaml --submission submission.yaml
+"""
 import os.path
 
 from BigDFT.Calculators import SystemCalculator
@@ -37,7 +51,7 @@ def run(
     ########################
     params_sub = {}
     if submission is not None:
-        with open(submission) as o:
+        with open(submission, encoding="utf8") as o:
             params_sub = yaml.safe_load(o)
 
     calc_args = {}
@@ -64,7 +78,7 @@ def run(
     ########################
     if parameters is None:
         parameters = "input.yaml"
-    with open(parameters) as o:
+    with open(parameters, encoding="utf8") as o:
         parameters = yaml.safe_load(o)
     inp = Inputfile(parameters)
 
