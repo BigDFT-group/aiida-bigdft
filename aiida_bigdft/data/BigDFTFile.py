@@ -3,6 +3,7 @@ Module for adding extra BigDFT functionality to AiiDA's base SinglefileData
 """
 
 import os
+from typing import Union
 
 from BigDFT.Logfiles import Logfile
 import yaml
@@ -26,7 +27,10 @@ class BigDFTFile(SinglefileData):
         """
         try:
             with self.open() as o:  # pylint: disable=not-context-manager
-                return yaml.safe_load(o)
+                content = yaml.safe_load(o)
+                if content is None:
+                    return {}
+                return content
         except FileNotFoundError:
             self.logger.warning(f"file {self.filename} could not be opened!")
             return {}
@@ -60,8 +64,15 @@ class BigDFTLogfile(BigDFTFile):
     """
 
     @property
-    def logfile(self):
+    def logfile(self) -> Union[Logfile, None]:
         """
         Create and return the BigDFT Logfile object
         """
-        return Logfile(dictionary=self.content)
+        if not hasattr(self, '_logfile'):
+            try:
+                self._logfile = Logfile(dictionary=self.content)
+            except Exception as e:
+                self._logfile_generate_error = e
+                self._logfile = None
+
+        return self._logfile
