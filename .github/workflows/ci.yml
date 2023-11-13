@@ -48,7 +48,7 @@ jobs:
       env:
         # show timings of tests
         PYTEST_ADDOPTS: "--durations=0"
-      run: | 
+      run: |
         chmod +x ./bigdft/testing_standin.py
         pytest --cov aiida_bigdft --cov-append .
 
