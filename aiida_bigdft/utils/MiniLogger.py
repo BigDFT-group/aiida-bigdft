@@ -2,7 +2,7 @@
 Minimised logger class to handle debugging once the daemon takes control
 
 """
-
+import os.path
 from datetime import datetime
 
 
@@ -16,7 +16,13 @@ class MiniLogger:
     # pylint: disable=too-few-public-methods
 
     def __init__(self, path: str):
+
+        dpath = os.path.split(path)[0]
+        if not os.path.isdir(dpath):
+            os.makedirs(dpath)
+
         self._path = path
+
         self.debug("minilogger class init", wipe=True)
 
     def debug(self, msg: str, wipe: bool = False):
