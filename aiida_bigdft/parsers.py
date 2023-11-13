@@ -13,6 +13,7 @@ from aiida.parsers.parser import Parser
 
 from aiida_bigdft.calculations import BigDFTCalculation
 from aiida_bigdft.data.BigDFTFile import BigDFTFile, BigDFTLogfile
+from aiida_bigdft.utils.MiniLogger import MiniLogger
 
 
 class BigDFTParser(Parser):
@@ -103,7 +104,11 @@ class BigDFTParser(Parser):
         self.out("logfile", logfile)
         self.out("timefile", timefile)
 
-        self.out("energy", aiida.orm.Float(logfile.logfile.energy))
+        energy = 0.0
+        if logfile.logfile is not None:
+            energy = logfile.logfile.energy
+
+        self.out("energy", aiida.orm.Float(energy))
 
         ttotal = timefile.content.get("SUMMARY", None)
         if ttotal is not None:
