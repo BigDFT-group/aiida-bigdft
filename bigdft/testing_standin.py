@@ -49,7 +49,10 @@ def run(
     with open(f"data-{jobname}/time-{jobname}.yaml", "w+", encoding="utf8") as o:
         yaml.dump({}, o)
 
-    return {"result": True}
+    payload = {"pass": True}
+
+    with open("testing_info.yaml", "w+", encoding="utf8") as o:
+        yaml.dump(payload, o)
 
 
 if __name__ == "__main__":

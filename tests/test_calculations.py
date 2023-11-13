@@ -1,4 +1,7 @@
 """ Tests for calculations."""
+import os
+
+import yaml
 from aiida.engine import run
 from aiida.orm import StructureData
 from aiida.plugins import CalculationFactory
@@ -32,4 +35,8 @@ def test_process(bigdft_code):
 
     result = run(CalculationFactory("bigdft"), **inputs)
 
-    assert result["result"]
+    rpath = result["remote_folder"].get_remote_path()
+    with open(os.path.join(rpath, "testing_info.yaml")) as o:
+        result = yaml.safe_load(o)
+
+    assert result["pass"]
