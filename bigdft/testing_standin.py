@@ -3,6 +3,7 @@
 Testing class to mimic bigdft.py within the CI. Any validation is to be performed here.
 
 """
+import os
 
 import click
 import yaml
@@ -44,7 +45,8 @@ def run(
     with open(f"log-{jobname}.yaml", "w+", encoding="utf8") as o:
         yaml.dump({}, o)
 
-    with open(f"time-{jobname}.yaml", "w+", encoding="utf8") as o:
+    os.makedirs(f"data-{jobname}")
+    with open(f"data-{jobname}/time-{jobname}.yaml", "w+", encoding="utf8") as o:
         yaml.dump({}, o)
 
     return {"result": True}
