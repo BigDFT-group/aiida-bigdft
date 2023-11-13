@@ -36,7 +36,10 @@ def test_process(bigdft_code):
     result = run(CalculationFactory("bigdft"), **inputs)
 
     rpath = result["remote_folder"].get_remote_path()
-    with open(os.path.join(rpath, "testing_info.yaml")) as o:
-        result = yaml.safe_load(o)
+    try:
+        with open(os.path.join(rpath, "testing_info.yaml")) as o:
+            result = yaml.safe_load(o)
+    except FileNotFoundError:
+        raise RuntimeError("Test did not output expected result file")
 
     assert result["pass"]
