@@ -101,8 +101,7 @@ def get_code(entry_point, computer, force_create: bool = False):
 
     aiida_bigdft_root = aiida_bigdft.__file__
     aiida_bigdft_pyfile = os.path.join(
-        aiida_bigdft_root.split("aiida-bigdft", maxsplit=1)[0],
-        "aiida-bigdft",
+        aiida_bigdft_root.split("aiida_bigdft", maxsplit=1)[0],
         "bigdft",
         "testing_standin.py",
     )
