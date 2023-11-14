@@ -49,7 +49,7 @@ jobs:
         # show timings of tests
         PYTEST_ADDOPTS: "--durations=0"
       run: |
-        ll bigdft
+        ls -la bigdft
         pytest --cov aiida_bigdft --cov-append .
 
   docs:
