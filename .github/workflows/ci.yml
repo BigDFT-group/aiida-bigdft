@@ -51,6 +51,8 @@ jobs:
       run: |
         chmod +x bigdft/testing_standin.py
         ls -la bigdft
+        verdi quicksetup -n --email=test@test.com --first-name=test
+        verdi daemon start
         verdi status
         pytest --cov aiida_bigdft --cov-append .
 
