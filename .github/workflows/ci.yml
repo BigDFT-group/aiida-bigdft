@@ -51,6 +51,7 @@ jobs:
       run: |
         chmod +x bigdft/testing_standin.py
         ls -la bigdft
+        verdi status
         pytest --cov aiida_bigdft --cov-append .
 
     - name: Tmate Session
