@@ -40,6 +40,8 @@ def test_process(bigdft_code):
         with open(os.path.join(rpath, "testing_info.yaml")) as o:
             result = yaml.safe_load(o)
     except FileNotFoundError:
-        raise RuntimeError("Test did not output expected result file")
+        raise RuntimeError(
+            f"Test did not output expected result file within workdir {rpath}"
+        )
 
     assert result["pass"]
