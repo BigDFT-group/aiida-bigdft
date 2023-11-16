@@ -41,13 +41,6 @@ class BigDFTRelaxWorkChain(WorkChain):
             help="BigDFT Inputfile parameters, as Dict",
         )
         spec.input(
-            "extra_retrieved_files",
-            valid_type=List,
-            required=False,
-            help="",
-            default=lambda: List(),
-        )
-        spec.input(
             "relax.perform",
             valid_type=orm.Bool,
             required=False,
