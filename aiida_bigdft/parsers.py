@@ -79,9 +79,14 @@ class BigDFTParser(Parser):
                 self.logger.error("Error in stderr: " + exitcode.message)
 
         metadata = self.node.get_metadata_inputs()["metadata"]
-        jobname = metadata["options"].get(
-            "jobname", BigDFTCalculation._defaults["jobname"]
-        )
+
+        jobname = BigDFTCalculation._defaults["jobname"]
+
+        if "jobname" in self.node.get_options():
+            jobname = self.node.get_options()["jobname"]
+
+        if "jobname" in metadata.get("options", {}):
+            jobname = metadata["options"]["jobname"]
 
         output_filename = f"log-{jobname}.yaml"
         time_filename = f"time-{jobname}.yaml"
