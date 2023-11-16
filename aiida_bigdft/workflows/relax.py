@@ -12,6 +12,8 @@ from aiida.engine import ToContext, WorkChain, append_
 from aiida.orm.nodes.data import List
 from aiida.plugins import DataFactory, WorkflowFactory
 
+from aiida_bigdft.calculations import _DEFAULT_PARAMS
+
 BigDFTBaseWorkChain = WorkflowFactory("bigdft")
 BigDFTParameters = DataFactory("bigdft")
 StructureData = DataFactory("structure")
@@ -35,9 +37,8 @@ class BigDFTRelaxWorkChain(WorkChain):
         spec.input(
             "parameters",
             valid_type=BigDFTParameters,
-            required=False,
-            default=lambda: orm.Dict(),
-            help="param dictionary",
+            default=lambda: BigDFTParameters(_DEFAULT_PARAMS),
+            help="BigDFT Inputfile parameters, as Dict",
         )
         spec.input(
             "extra_retrieved_files",
