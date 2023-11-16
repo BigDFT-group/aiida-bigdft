@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 """
 Executable script to create and launch a BigDFT calculation from the inputs.
 

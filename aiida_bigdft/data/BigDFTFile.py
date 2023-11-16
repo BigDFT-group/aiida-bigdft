@@ -68,7 +68,7 @@ class BigDFTLogfile(BigDFTFile):
         """
         Create and return the BigDFT Logfile object
         """
-        if not hasattr(self, '_logfile'):
+        if not hasattr(self, "_logfile"):
             try:
                 self._logfile = Logfile(dictionary=self.content)
             except Exception as e:
