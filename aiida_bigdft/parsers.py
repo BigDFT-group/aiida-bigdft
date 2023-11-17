@@ -78,13 +78,12 @@ class BigDFTParser(Parser):
             if exitcode:
                 self.logger.error("Error in stderr: " + exitcode.message)
 
-        metadata = self.node.get_metadata_inputs()["metadata"]
-
         jobname = BigDFTCalculation._defaults["jobname"]
 
         if "jobname" in self.node.get_options():
             jobname = self.node.get_options()["jobname"]
 
+        metadata = self.node.get_metadata_inputs()["metadata"]
         if "jobname" in metadata.get("options", {}):
             jobname = metadata["options"]["jobname"]
 
