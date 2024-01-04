@@ -23,9 +23,9 @@ _DEFAULT_PARAMS = {
 
 class BigDFTCalculation(CalcJob):
     """
-    AiiDA calculation plugin wrapping the diff executable.
+    AiiDA plugin wrapping a BigDFT calculation
 
-    Simple AiiDA plugin wrapper for 'diffing' two files.
+    requires a valid BigDFT install and a copy of `bigdft.py` on the target machine.
     """
 
     _posinp = "posinp.xyz"
