@@ -19,9 +19,11 @@ class BigDFTBaseWorkChain(BaseRestartWorkChain):
 
         spec.outline(
             cls.setup,
-            while_(cls.should_run_process,
-                   cls.run_process,
-                   cls.inspect_process),
+            while_(cls.should_run_process)
+                (
+                cls.run_process,
+                cls.inspect_process
+                ),
             cls.results,
         )
         spec.exit_code(300, "ERROR_UNRECOVERABLE_FAILURE", message="The calculation encountered an unrecoverable error")
