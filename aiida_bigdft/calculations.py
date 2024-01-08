@@ -182,7 +182,11 @@ class BigDFTCalculation(CalcJob):
 
         list_send = []
         for file in self.inputs.extra_files_send.get_list():
-            tmp = SinglefileData(os.path.join(os.path.abspath(file)))
+
+            if not os.path.isabs(file):
+                raise ValueError(f"Path to file {file} is not absolute!")
+
+            tmp = SinglefileData(os.path.join(file))
             list_send.append((tmp.uuid, tmp.filename, tmp.filename))
             tmp.store()
 
