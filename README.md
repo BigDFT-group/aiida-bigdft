@@ -47,7 +47,7 @@ verdi data bigdft export <PK>
 
 ## WorkChains
 
-The included workchains use the `namespace` format, so inputs should be placed under the 
+The included workchains use the `namespace` format, so inputs should be placed under the
 `bigdft` namespace when launching a workchain
 
 ## License
