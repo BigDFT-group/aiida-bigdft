@@ -7,13 +7,13 @@ Translation layer for AiiDA-PyBigDFT
 ```shell
 pip install aiida-bigdft
 verdi quicksetup  # better to set up a new profile
-verdi plugin list aiida.calculations  # should now show your calclulation plugins
+verdi plugin list aiida.calculations  # should now show your calculation plugins
 ```
 
 ## Requirements
 
 - A functioning BigDFT installation
-- A copy of `bigdft.py` (available in this repository at `bigdft/bigdft.py`)
+- A copy of `bigdft.py` (Available in later versions of BigDFT, but also in this repository at `bigdft/bigdft.py`)
 
 When setting up the BigDFT code, ensure that the executable is set to the `bigdft.py` script.
 
@@ -30,9 +30,7 @@ Where BIGDFT_BUILD_DIR is the directory in which BigDFT was built.
 
 ## Usage
 
-Here goes a complete example of how to submit a test calculation using this plugin.
-
-A quick demo of how to submit a calculation:
+To see how calculations can be submitted, see the examples directory:
 
 ```shell
 verdi daemon start     # make sure the daemon is running
@@ -47,9 +45,14 @@ verdi data bigdft list
 verdi data bigdft export <PK>
 ```
 
+## WorkChains
+
+The included workchains use the `namespace` format, so inputs should be placed under the 
+`bigdft` namespace when launching a workchain
+
 ## License
 
 MIT
 ## Contact
 
-louis.j.beal@gmail.com
+bigdft-developers@lists.launchpad.net
