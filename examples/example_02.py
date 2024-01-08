@@ -26,7 +26,8 @@ def test_run(code):
     testfile = os.path.join(os.getcwd(), "test.txt")
 
     with open(testfile, "w+", encoding="utf8") as o:
-        o.write("")
+        # use `verdi calcjob outputcat <pk> test.txt` to verify the existence of this file
+        o.write("I am a test\n")
 
     cell = [[2, 0, 0], [0, 2, 0], [0, 0, 2]]
     s = StructureData(cell=cell)
