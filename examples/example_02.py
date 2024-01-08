@@ -2,6 +2,7 @@
 """Run a test calculation on localhost.
 Usage: ./example_01.py
 """
+import os
 import click
 
 from aiida import cmdline
@@ -22,7 +23,9 @@ def test_run(code):
         computer = helpers.get_computer()
         code = helpers.get_code(entry_point="bigdft", computer=computer)
 
-    with open("test.txt", "w+", encoding="utf8") as o:
+    testfile = os.path.join(os.getcwd(), "test.txt")
+
+    with open(testfile, "w+", encoding="utf8") as o:
         o.write("")
 
     cell = [[2, 0, 0], [0, 2, 0], [0, 0, 2]]
@@ -33,7 +36,7 @@ def test_run(code):
     inputs = {
         "code": code,
         "structure": s,
-        "extra_files_send": ["test.txt"],
+        "extra_files_send": [testfile],
         "metadata": {
             "options": {
                 "jobname": "Mono_Carbon",
