@@ -16,6 +16,21 @@ import time
 
 import aiida_bigdft
 
+# imports required for docs/source/reference/api/public.rst
+from aiida import (  # pylint: disable=unused-import
+    cmdline,
+    common,
+    engine,
+    manage,
+    orm,
+    parsers,
+    plugins,
+    schedulers,
+    tools,
+    transports,
+)
+from aiida.cmdline.params import arguments, options  # pylint: disable=unused-import
+
 # -- General configuration ------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
